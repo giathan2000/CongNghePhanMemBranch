@@ -1,6 +1,7 @@
 
+import Entities.KhachHang;
 import Entities.XeMay;
-import Model.DatabaseConnection;
+import Model.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +32,22 @@ public class TestDataBase {
         }
     }
     
+    public  void inChuoi(KhachHang kh){
+        String q = "INSERT INTO KhachHang (ten,cmnd,sdt,gioitinh,sinhnhat) " +
+                    "VALUE (N'"+kh.getHoTen()+"', '"+kh.getCMND()+"', '"+kh.getSDT()+"', '"+kh.getGioiTinh()+"', '"+"'"+")";
+        System.out.println(q);
+    }
+    
+    public static void testTimkiemkahchhang() throws SQLException{
+        DonBaoDuongModel b =new DonBaoDuongModel();
+        KhachHang kh =b.timKhachHangTheoTenVaSDT("minh", "02342342");
+        System.out.println(kh.getCMND());
+        System.out.println(kh.getGioiTinh());
+        System.out.println(kh.getHoTen());
+        System.out.println(kh.getID());
+        System.out.println(kh.getSDT());
+    }    
     public static void main(String[] args) throws SQLException {
-        timXeMayTheoBienSo("77H23123");
+        testTimkiemkahchhang();
     }
 }

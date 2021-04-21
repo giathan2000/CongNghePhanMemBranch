@@ -10,20 +10,23 @@ package Entities;
  * @author hesac
  */
 public class KhachHang {
+
     private int ID;
     private String hoTen;
     private String CMND;
     private String SDT;
     private String gioiTinh;
-    private String ngaySinh;
 
-    public KhachHang(int ID, String hoTen, String CMND, String SDT, String gioiTinh, String ngaySinh) {
+    public KhachHang() {
+
+    }
+
+    public KhachHang(int ID, String hoTen, String CMND, String SDT, String gioiTinh) {
         this.ID = ID;
         this.hoTen = hoTen;
         this.CMND = CMND;
         this.SDT = SDT;
         this.gioiTinh = gioiTinh;
-        this.ngaySinh = ngaySinh;
     }
 
     public int getID() {
@@ -66,12 +69,4 @@ public class KhachHang {
         this.gioiTinh = gioiTinh;
     }
 
-    public String getNgaySinh() {
-        return ngaySinh;
-    }
-
-    public void setNgaySinh(String ngaySinh) {
-        this.ngaySinh = ngaySinh;
-    }
-    
 }
