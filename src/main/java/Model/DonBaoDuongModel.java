@@ -106,4 +106,17 @@ public class DonBaoDuongModel {
             return null;
         }
     }
+    
+    public KhachHang timKhachHangTheoTen(String hoTen) throws SQLException{
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "select * from KhachHang where KhachHang.ten = '" + hoTen +"'";
+        ResultSet rs = st.executeQuery(q);
+        
+        if(rs.next()){
+            return new KhachHang(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
+        }else{
+            return null;
+        }
+    }
 }

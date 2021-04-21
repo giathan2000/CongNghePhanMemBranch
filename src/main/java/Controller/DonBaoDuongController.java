@@ -92,13 +92,29 @@ public class DonBaoDuongController {
             }
         });
         
+        
         baoduongPanel.getBienSoXeTF().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
                 try {
                     XeMay xm = baoDuongModel.timXeMayTheoBienSo(baoduongPanel.getBienSoXeTF().getText().trim());
-                    if(xm == null){
+                    if(xm == null || xm.getIdKhach() == 0){
+                        baoduongPanel.getTenKhachHangTF().setText("Khách vãng lai");
+                        baoduongPanel.getSoDienThoaiTF().setText("");
+                        baoduongPanel.getLoaiXeComboBox().setEnabled(true);
+                        baoduongPanel.getSoDienThoaiTF().setEditable(true);
+                        baoduongPanel.getTenKhachHangTF().setEditable(true);
+                        baoduongPanel.getThemKhachHangMoiBT().setVisible(true);
                         
+                    }else {
+                        KhachHang kh = baoDuongModel.timKhachHangTheoID(xm.getIdKhach());
+                        baoduongPanel.getTenKhachHangTF().setText(kh.getHoTen());
+                        baoduongPanel.getTenKhachHangTF().setEditable(false);
+                        baoduongPanel.getSoDienThoaiTF().setText(kh.getSDT());
+                        baoduongPanel.getSoDienThoaiTF().setEditable(false);
+                        baoduongPanel.getLoaiXeComboBox().setSelectedItem(xm.getLoaiXe());
+                        baoduongPanel.getLoaiXeComboBox().setEnabled(false);
+                        baoduongPanel.getThemKhachHangMoiBT().setVisible(false);
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
