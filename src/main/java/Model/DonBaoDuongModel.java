@@ -151,8 +151,74 @@ public class DonBaoDuongModel {
         Connection con = DatabaseConnection.getConnection();
         Statement st = con.createStatement();
         String q = "UPDATE XeMay"
-                + "SET bienso = '"+xm.getBienSo()+"', idChuSoHuu = "+xm.getIdKhach()+", idLoaiXe = "+layIdLoaiXe(xm.getLoaiXe())+", tenxe = "+xm.getTenXe()+""
-                + "WHERE bienso = "+ xm.getBienSo();
+                + "SET bienso = '" + xm.getBienSo() + "', idChuSoHuu = " + xm.getIdKhach() + ", idLoaiXe = " + layIdLoaiXe(xm.getLoaiXe()) + ", tenxe = " + xm.getTenXe() + ""
+                + "WHERE bienso = " + xm.getBienSo();
         st.execute(q);
+    }
+
+    public ArrayList<NhanVien> layDanhSachNhanVien() throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+
+        ArrayList<NhanVien> arl = new ArrayList<>();
+        String q = "select * from NhanVien ";
+        ResultSet rs = st.executeQuery(q);
+        while (rs.next()) {
+            NhanVien pt = new NhanVien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5));
+            arl.add(pt);
+        }
+        con.close();
+        return arl;
+    }
+
+//    private int getSCOPEIDENTITY(){
+//        Connection con = DatabaseConnection.getConnection();
+//        Statement st = con.createStatement();
+//        String q = "";
+//        st.execute(q);
+//    }
+    public DonBaoDuong themDonBaoDuong(DonBaoDuong dbd) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "INSERT INTO DonBaoDuong (bienso,NgayBatDau,NgayHoanThanh,trangthai,tongtien,idNhanVienLapDon) "
+                + "VALUES ('" + dbd.getBienSo() + "', '" + dbd.getNgayBatDau() + "', '" + dbd.getNgayHoanThanh()
+                + "', '" + dbd.getTrangThai() + "', " + dbd.getTongTien() + ", " + dbd.getIdNhanVienLapDon() + "" + ");"
+                + "SELECT SCOPE_IDENTITY() AS [SCOPE_IDENTITY]; ";
+        ResultSet rs = st.executeQuery(q);
+        if (rs.next()) {
+            dbd.setId(rs.getInt(1));
+        }
+        con.close();
+        return dbd;
+    }
+
+    public void themChiTieDonBaoDuong(int idDichVu, int idDonBaoDuong, int soLuong, long phuPhi, int idNhanVienPhuTrach) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "INSERT INTO ChiTietDonBaoDuong(idDichVuBaoDuong,idDonBaoDuong,idNhanVienPhuTrach,phuphi,soluong) "
+                + "VALUES (" + idDichVu + ", " + idDonBaoDuong + ", " + idNhanVienPhuTrach
+                + ", " + phuPhi + ", " + soLuong + ");";
+        st.execute(q);
+        con.close();
+
+    }
+
+    public void themChiTietThayTheLinhKien(int idDonBaoDuong, int idLinkKien, String ngaynhaplinhkien, String ghichu) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "INSERT INTO ChiTietThayTheLinhKien(idDonBaoDuong,idLinkKien,ngaynhaplinhkien,ghichu) "
+                + "VALUES (" + idDonBaoDuong + ", " + idLinkKien + ", '" + ngaynhaplinhkien
+                + "', N'" + ghichu + "');";
+        st.execute(q);
+        con.close();
+    }
+
+    public void themChiTietTrangThaiKhiTiepNhanXe(int idDonBaoDuong, int idPhuTungCanKiemTra, int idTrangThaiPhuTung) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "INSERT INTO ChiTietTrangThaiKhiTiepNhanXe(idDonBaoDuong,idPhuTungCanKiemTra,idTrangThaiPhuTung) "
+                + "VALUES (" + idDonBaoDuong + ", " + idPhuTungCanKiemTra + ", " + idTrangThaiPhuTung + ");";
+        st.execute(q);
+        con.close();
     }
 }

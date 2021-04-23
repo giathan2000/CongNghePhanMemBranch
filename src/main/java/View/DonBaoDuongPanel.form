@@ -38,19 +38,14 @@
                                               <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                                                  <Component id="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" min="-2" pref="95" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                                  <Component id="LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" min="-2" pref="102" max="-2" attributes="0"/>
-                                              </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="ChungMinhNhanDanTF_ThemKhachHangMoiDailog" min="-2" pref="226" max="-2" attributes="0"/>
-                                                      <Component id="soDienThoaiTF_ThemKhachHangMoiDialog" min="-2" pref="226" max="-2" attributes="0"/>
-                                                      <Component id="NgaySinhKhachHangTF_ThemKhachHangMoiDailog" alignment="0" min="-2" pref="226" max="-2" attributes="0"/>
-                                                      <Component id="GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog" alignment="0" min="-2" pref="226" max="-2" attributes="0"/>
+                                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                                      <Component id="ChungMinhNhanDanTF_ThemKhachHangMoiDailog" pref="226" max="32767" attributes="0"/>
+                                                      <Component id="soDienThoaiTF_ThemKhachHangMoiDialog" pref="226" max="32767" attributes="0"/>
+                                                      <Component id="NgaySinhKhachHangTF_ThemKhachHangMoiDailog" alignment="0" pref="226" max="32767" attributes="0"/>
+                                                      <Component id="GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog" alignment="0" pref="226" max="32767" attributes="0"/>
+                                                      <Component id="LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" alignment="0" max="32767" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
@@ -125,10 +120,7 @@
                       <Component id="GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                      <Component id="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="53" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -239,29 +231,6 @@
             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JLabel" name="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="99" green="99" red="ff" type="rgb"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                <LineBorder>
-                  <Color PropertyName="color" blue="66" green="66" red="66" type="rgb"/>
-                </LineBorder>
-              </Border>
-            </Property>
-            <Property name="horizontalTextPosition" type="int" value="0"/>
-            <Property name="opaque" type="boolean" value="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseClicked"/>
-            <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseEntered"/>
-            <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
           <Properties>
             <Property name="text" type="java.lang.String" value="S&#x1ed1; &#x111;i&#x1ec7;n tho&#x1ea1;i *:"/>
@@ -331,12 +300,12 @@
                   <Table columnCount="5" rowCount="0">
                     <Column editable="false" title="M&#xe3;" type="java.lang.String"/>
                     <Column editable="false" title="T&#xea;n " type="java.lang.String"/>
-                    <Column editable="true" title="Ph&#xed;" type="java.lang.String"/>
+                    <Column editable="false" title="Ph&#xed;" type="java.lang.String"/>
                     <Column editable="false" title="Lo&#x1ea1;i xe" type="java.lang.String"/>
                     <Column editable="true" title="Ch&#x1ecd;n" type="java.lang.Boolean"/>
                   </Table>
                 </Property>
-                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="DanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog.setSelectionBackground(Color.LIGHT_GRAY);">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
@@ -410,11 +379,11 @@
       <Properties>
         <Property name="title" type="java.lang.String" value="Th&#xea;m linh ki&#x1ec7;n thay th&#x1ebf;" postCode="ThemLinhKienThayTheDialog.setModal(true);"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[600, 700]"/>
+          <Dimension value="[1000, 700]"/>
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ThemLinhKienThayTheDialog.setLocation(600, 100);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ThemLinhKienThayTheDialog.setLocation(400, 100);"/>
       </AuxValues>
 
       <Layout>
@@ -475,14 +444,14 @@
                     <Column editable="true" title="Ch&#x1ecd;n " type="java.lang.Boolean"/>
                   </Table>
                 </Property>
-                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.setSelectionBackground(Color.LIGHT_GRAY);">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="-1" minWidth="-1" prefWidth="20" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
                     </Column>
-                    <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                    <Column maxWidth="-1" minWidth="250" prefWidth="-1" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -690,20 +659,12 @@
                                   <Component id="XuatHoaDonBT" min="-2" pref="102" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                              <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" alignment="1" attributes="0">
-                                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                                      </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                                   </Group>
+                                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="TongThanhToanTF" alignment="0" max="32767" attributes="0"/>
@@ -839,6 +800,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="MaDonHangTF">
           <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="99" red="99" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="[T&#x1ef1; &#x111;&#x1ed9;ng t&#x1ea1;o]"/>
           </Properties>
           <AuxValues>
@@ -993,9 +957,9 @@
                       <Table columnCount="6" rowCount="0">
                         <Column editable="false" title="M&#xe3;" type="java.lang.String"/>
                         <Column editable="false" title="T&#xea;n" type="java.lang.String"/>
-                        <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
-                        <Column editable="false" title="Ph&#xed; / &#x111;&#x1a1;n v&#x1ecb;" type="java.lang.Integer"/>
-                        <Column editable="false" title="Ph&#x1ee5; ph&#xed;" type="java.lang.Integer"/>
+                        <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
+                        <Column editable="false" title="Ph&#xed; / &#x111;&#x1a1;n v&#x1ecb;" type="java.lang.String"/>
+                        <Column editable="false" title="Ph&#x1ee5; ph&#xed;" type="java.lang.String"/>
                         <Column editable="true" title="Ph&#x1ee5; tr&#xe1;ch" type="java.lang.String"/>
                       </Table>
                     </Property>
@@ -1173,15 +1137,21 @@
                 <Component class="javax.swing.JTable" name="DanhSachLinhKienThayTheTB">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="4" rowCount="0">
-                        <Column editable="true" title="M&#xe3;" type="java.lang.String"/>
-                        <Column editable="true" title="T&#xea;n linh ki&#x1ec7;n" type="java.lang.String"/>
+                      <Table columnCount="5" rowCount="0">
+                        <Column editable="false" title="M&#xe3;" type="java.lang.String"/>
+                        <Column editable="false" title="T&#xea;n linh ki&#x1ec7;n" type="java.lang.String"/>
                         <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
+                        <Column editable="false" title="Gi&#xe1;" type="java.lang.String"/>
                         <Column editable="true" title="Ghi ch&#xfa;" type="java.lang.String"/>
                       </Table>
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -1325,7 +1295,7 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="TrangThaiDonBaoDuongCheckBox">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ho&#xe0;n th&#xe0;nh"/>
+            <Property name="text" type="java.lang.String" value="&#x110;&#xe3; s&#x1eed;a xong"/>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -1457,7 +1427,7 @@
                         <Column editable="true" title="B&#xf4;i tr&#x1a1;n" type="java.lang.Boolean"/>
                       </Table>
                     </Property>
-                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="DanhSachtrangThaiPhuTungTiepNhan.setSelectionBackground(Color.LIGHT_GRAY);">
                       <TableColumnModel selectionModel="0">
                         <Column maxWidth="-1" minWidth="200" prefWidth="-1" resizable="true">
                           <Title/>

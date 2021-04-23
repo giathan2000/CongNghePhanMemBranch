@@ -1,4 +1,4 @@
-
+import lib.*;
 import Entities.KhachHang;
 import Entities.XeMay;
 import Model.*;
@@ -48,6 +48,6 @@ public class TestDataBase {
         System.out.println(kh.getSDT());
     }    
     public static void main(String[] args) throws SQLException {
-        testTimkiemkahchhang();
+        System.out.println(Stringlib.isLikeString("min minh       s  aaa", "Binhf minh moở sáng là số min"));
     }
 }

@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import org.apache.commons.lang.SerializationUtils;
 import View.*;
 import Model.*;
 import Entities.*;
@@ -15,13 +16,20 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import lib.Config;
+import lib.Stringlib;
 
 /**
  *
@@ -31,6 +39,8 @@ public class DonBaoDuongController {
 
     DonBaoDuongPanel baoduongPanel;
     DonBaoDuongModel baoDuongModel;
+    ArrayList<NhanVien> danhSachNhanVien;
+    ArrayList<DichVuBaoDuong> danhSachDichVubaoDuong;
 
     public DonBaoDuongController(DonBaoDuongPanel donBaoDuongPanel, DonBaoDuongModel model) throws SQLException {
         this.baoduongPanel = donBaoDuongPanel;
@@ -39,6 +49,8 @@ public class DonBaoDuongController {
     }
 
     public void init() throws SQLException {
+        danhSachNhanVien = baoDuongModel.layDanhSachNhanVien();
+        cauHinhCacItem();
         themSuKienChoCacItem();
         loadDanhSachTrangThaiPhuTungTiepNhan();
         loadDanhSachLoaiXeComboBox();
@@ -95,6 +107,7 @@ public class DonBaoDuongController {
         baoduongPanel.getLoaiXeComboBox().addItemListener((ItemEvent e) -> {
             try {
                 loadDanhSachDichVuBaoDuonginDialog();
+                ((DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel()).setNumRows(0);
             } catch (SQLException ex) {
                 Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -117,7 +130,6 @@ public class DonBaoDuongController {
                         baoduongPanel.getLoaiXeComboBox_ThemKhachHangMoiDailog().setSelectedItem(baoduongPanel.getLoaiXeComboBox().getSelectedItem().toString().trim());
                         baoduongPanel.getBienSoXeMayTF_ThemKhachHangMoiDailog().setText(baoduongPanel.getBienSoXeTF().getText());
                         baoduongPanel.getSoDienThoaiTF_ThemKhachHangMoiDialog().setText(baoduongPanel.getSoDienThoaiTF().getText().trim());
-
                     } else {
                         KhachHang kh = baoDuongModel.timKhachHangTheoID(xm.getIdKhach());
                         baoduongPanel.getTenKhachHangTF().setText(kh.getHoTen());
@@ -141,7 +153,7 @@ public class DonBaoDuongController {
                 baoduongPanel.getThemKhachHangMoiDailog().setModal(true);
             }
         });
-        
+
         baoduongPanel.getLuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -155,19 +167,18 @@ public class DonBaoDuongController {
 
                     kh = baoDuongModel.timKhachHangTheoTenVaSDT(kh.getHoTen(), kh.getSDT());
 
-                   
                 } catch (SQLException ex) {
                     Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
                 try {
                     XeMay xm = baoDuongModel.timXeMayTheoBienSo(baoduongPanel.getBienSoXeMayTF_ThemKhachHangMoiDailog().getText());
-                    if(xm == null){ 
-                        baoDuongModel.themXeMayMoi(new XeMay(baoduongPanel.getBienSoXeMayTF_ThemKhachHangMoiDailog().getText(), 
-                                                            baoduongPanel.getTenXeMayTF_ThemKhachHangMoiDailog().getText(), 
-                                                            kh.getID(), 
-                                                            baoduongPanel.getLoaiXeComboBox_ThemKhachHangMoiDailog().getSelectedItem().toString()));
-                    } else if(xm.getIdKhach() == 0){
+                    if (xm == null) {
+                        baoDuongModel.themXeMayMoi(new XeMay(baoduongPanel.getBienSoXeMayTF_ThemKhachHangMoiDailog().getText(),
+                                baoduongPanel.getTenXeMayTF_ThemKhachHangMoiDailog().getText(),
+                                kh.getID(),
+                                baoduongPanel.getLoaiXeComboBox_ThemKhachHangMoiDailog().getSelectedItem().toString()));
+                    } else if (xm.getIdKhach() == 0) {
                         xm.setIdKhach(kh.getID());
                         baoDuongModel.capNhatthongTinXeMay(xm);
                     }
@@ -176,23 +187,263 @@ public class DonBaoDuongController {
                 }
             }
         });
-        
+
         baoduongPanel.getThemDichVuBaoDuongBT_ThemDichVuBaoDuongiDailog().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
-                DefaultTableModel dtm =  (DefaultTableModel) baoduongPanel.getDanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog().getModel();
-                DefaultTableModel dtm1 =  (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
-                Vector<Vector> lr = (Vector)dtm.getDataVector();
+
+                DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog().getModel();
+                DefaultTableModel dtm1 = (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
+                Vector<Vector> lr = (Vector) dtm.getDataVector();
+                Vector<Vector> lr1 = (Vector) dtm1.getDataVector();
                 for (Vector vt : lr) {
-                    System.out.println(".mouseClicked()");
-                    
-                    if(vt.elementAt(4) != null && (boolean)vt.elementAt(4) == true){
-                        dtm1.addRow(new Object[]{vt.elementAt(0),vt.elementAt(1),1,vt.elementAt(2),0,null});
+                    if (vt.elementAt(4) != null && (boolean) vt.elementAt(4) == true) {
+                        boolean doit = false;
+                        for (int i = 0; i < lr1.size(); i++) {
+                            Vector vt1 = lr1.get(i);
+                            if (vt.elementAt(1).toString().equalsIgnoreCase(vt1.elementAt(1).toString())) {
+                                int data = Integer.parseInt(dtm1.getValueAt(i, 2).toString().trim()) + 1;
+                                if (data > 100) {
+                                    data = 100;
+                                }
+                                dtm1.setValueAt(data, i, 2);
+                                doit = true;
+                                break;
+                            }
+                        }
+                        if (!doit) {
+                            dtm1.addRow(new Object[]{vt.elementAt(0), vt.elementAt(1), 1, vt.elementAt(2), 0, null});
+                        }
+
                     }
                 }
                 baoduongPanel.getThemDichVuBaoDuongDailog().setVisible(false);
-            }  
+            }
         });
+
+        baoduongPanel.getXoaDichVuBaoDuongBT().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int[] lr = baoduongPanel.getDanhSachDichVuBaoDuongTB().getSelectedRows();
+                DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
+
+                if (lr.length != 0) {
+                    for (int i = lr.length; i > 0; i--) {
+                        dtm.removeRow(lr[i - 1]);
+                    }
+                }
+            }
+        });
+
+        baoduongPanel.getThemLinhKienThayTheBT_ThemLinhKienThayTheDailog().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel();
+                DefaultTableModel dtm1 = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel();
+                Vector<Vector> lr = (Vector) dtm.getDataVector();
+                Vector<Vector> lr1 = (Vector) dtm1.getDataVector();
+
+                for (int j = 0; j < lr.size(); j++) {
+                    Vector vt = lr.get(j);
+                    if (vt.elementAt(6) != null && (boolean) vt.elementAt(6) == true) {
+                        boolean doit = false;
+                        int data = 0;
+                        for (int i = 0; i < lr1.size(); i++) {
+                            Vector vt1 = lr1.get(i);
+                            if (vt.elementAt(0).toString().equalsIgnoreCase(vt1.elementAt(0).toString())) {
+                                data = Integer.parseInt(dtm1.getValueAt(i, 2).toString().trim()) + 1;
+                                if (data > 100) {
+                                    data = 100;
+                                }
+                                dtm1.setValueAt(data, i, 2);
+                                doit = true;
+                                break;
+                            }
+                        }
+                        if (!doit) {
+                            dtm1.addRow(new Object[]{vt.elementAt(0), vt.elementAt(1), 1, vt.elementAt(2), null});
+                        }
+                    }
+                }
+                suaNhapSoLuong();
+                baoduongPanel.getThemLinhKienThayTheDialog().setVisible(false);
+                
+            }
+        });
+
+        baoduongPanel.getXoaLinhKienThayTheBT().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int[] lr = baoduongPanel.getDanhSachLinhKienThayTheTB().getSelectedRows();
+                DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel();
+
+                if (lr.length != 0) {
+                    for (int i = lr.length; i > 0; i--) {
+                        dtm.removeRow(lr[i - 1]);
+                    }
+                }
+            }
+        });
+
+        baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel().addTableModelListener((TableModelEvent e) -> {
+            capNhatNhatTinhTienTF();
+        });
+
+        baoduongPanel.getDanhSachLinhKienThayTheTB().getModel().addTableModelListener((TableModelEvent e) -> {
+            capNhatNhatTinhTienTF();
+        });
+
+        baoduongPanel.getDanhSachDichVuBaoDuongTB().addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                capNhatNhatTinhTienTF();
+            }
+        });
+
+        baoduongPanel.getDanhSachLinhKienThayTheTB().addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                capNhatNhatTinhTienTF();
+            }
+        });
+
+        baoduongPanel.getSoLuongComboBox().addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                capNhatNhatTinhTienTF();
+            }
+        });
+
+        baoduongPanel.getTimKiemDichVuBaoDuongTF_ThemDichVuBaoDuongDailog().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    ArrayList<DichVuBaoDuong> ar = baoDuongModel.layDanhSachDichVuBaoDuong();
+                    String key = baoduongPanel.getTimKiemDichVuBaoDuongTF_ThemDichVuBaoDuongDailog().getText().trim();
+                    DefaultTableModel dm = (DefaultTableModel) baoduongPanel.getDanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog().getModel();
+                    if (!key.equalsIgnoreCase("")) {
+                        dm.setNumRows(0);
+                        for (DichVuBaoDuong dv : ar) {
+                            if (Stringlib.isLikeString(key, dv.getTenDichVuBaoDuong()) >= 0.5
+                                    && baoduongPanel.getLoaiXeComboBox().getSelectedItem().toString().equalsIgnoreCase(dv.getLoaiXe())) {
+                                dm.addRow(new Object[]{dv.getId(), dv.getTenDichVuBaoDuong(), dv.getPhi(), dv.getLoaiXe()});
+                            }
+                        }
+                    } else {
+                        loadDanhSachDichVuBaoDuonginDialog();
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        baoduongPanel.getTimKiemLinhKienThayTheTF_ThemLinhKienThayTheDailog().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                try {
+                    ArrayList<LinhKien> ar = baoDuongModel.layDanhSachLinhKien();
+                    String key = baoduongPanel.getTimKiemLinhKienThayTheTF_ThemLinhKienThayTheDailog().getText().trim();
+                    DefaultTableModel dm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel();
+                    if (!key.equalsIgnoreCase("")) {
+                        dm.setNumRows(0);
+                        for (LinhKien lk : ar) {
+                            if (Stringlib.isLikeString(key, lk.getTenLinhKien()) >= 0.5) {
+                                dm.addRow(new Object[]{lk.getID(), lk.getTenLinhKien(), lk.getGia(), lk.getNhaCungCap(), lk.getNgayNhap(), lk.getSoLuong(), null});
+                            }
+                        }
+                    } else {
+                        loadDanhSachLinhKieninDialog();
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
+        baoduongPanel.getLuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                baoduongPanel.getChungMinhNhanDanTF_ThemKhachHangMoiDailog().setText("");
+                baoduongPanel.getNgaySinhKhachHangTF_ThemKhachHangMoiDailog().setText("");
+                baoduongPanel.getTenXeMayTF_ThemKhachHangMoiDailog().setText("");
+                baoduongPanel.getThemKhachHangMoiDailog().setVisible(false);
+            }
+
+        });
+
+        baoduongPanel.getSoLuongComboBox().addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                suaNhapSoLuong();
+            }
+        });
+        
+        baoduongPanel.getSoLuongComboBox().addPropertyChangeListener(new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                suaNhapSoLuong();
+            }
+        });
+        
+        baoduongPanel.getLuuDonBaoDuongBT().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                
+            }
+        });
+    }
+
+    private void capNhatNhatTinhTienTF() {
+        DefaultTableModel dvm = (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
+        DefaultTableModel ptm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel();
+
+        Vector<Vector> dvData = dvm.getDataVector();
+        Vector<Vector> ptData = ptm.getDataVector();
+
+        long tongTienDichVu = 0l;
+        long tongTienPhuTung = 0l;
+
+        for (Vector dvr : dvData) {
+            tongTienDichVu += Long.valueOf(dvr.get(2).toString()) * Long.valueOf(dvr.get(3).toString()) + Long.valueOf(dvr.get(4).toString());
+        }
+
+        for (Vector ptr : ptData) {
+            tongTienPhuTung += (Long.valueOf(ptr.get(2).toString())) * (Long.valueOf(ptr.get(3).toString()));
+        }
+        baoduongPanel.getThanhTienDichVuBaoDuongTF().setText(Long.toString(tongTienDichVu));
+        baoduongPanel.getThanhTienThayTheLinhKienTF().setText(Long.toString(tongTienPhuTung));
+        baoduongPanel.getTongChiPhiTF().setText(Long.toString(tongTienDichVu + tongTienPhuTung));
+        baoduongPanel.getThueVATTF().setText(Long.toString((long) ((tongTienDichVu + tongTienPhuTung) * Config.VAT)));
+        baoduongPanel.getTongThanhToanTF().setText(Long.toString((long) (tongTienDichVu + tongTienPhuTung + (tongTienDichVu + tongTienPhuTung) * Config.VAT)));
+    }
+
+    private void cauHinhCacItem() throws SQLException {
+        for (int i = 0; i < 100; i++) {
+            baoduongPanel.getSoLuongComboBox().addItem(Integer.toString(i + 1));
+        }
+        baoduongPanel.getDanhSachDichVuBaoDuongTB().getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(baoduongPanel.getSoLuongComboBox()));
+        baoduongPanel.getDanhSachLinhKienThayTheTB().getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(baoduongPanel.getSoLuongComboBox()));
+        ArrayList<NhanVien> ar = baoDuongModel.layDanhSachNhanVien();
+        for (NhanVien nv : ar) {
+            baoduongPanel.getDanhSachNhanVienComboBox().addItem(nv.getHoTen() + " (" + nv.getID() + ")");
+        }
+        baoduongPanel.getDanhSachDichVuBaoDuongTB().getColumnModel().getColumn(5).setCellEditor(new DefaultCellEditor(baoduongPanel.getDanhSachNhanVienComboBox()));
+    }
+
+    private void suaNhapSoLuong() {
+        for (int i = 0; i < baoduongPanel.getDanhSachLinhKienThayTheTB().getModel().getRowCount(); i++) {
+            for (int j = 0; j < baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel().getRowCount(); j++) {
+                if (baoduongPanel.getDanhSachLinhKienThayTheTB().getModel().getValueAt(i, 0).toString().equalsIgnoreCase(
+                        baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel().getValueAt(j, 0).toString())
+                        && (Integer.parseInt(baoduongPanel.getDanhSachLinhKienThayTheTB().getModel().getValueAt(i, 2).toString())
+                        > Integer.parseInt(baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel().getValueAt(j, 5).toString()))) {
+                    baoduongPanel.getDanhSachLinhKienThayTheTB().getModel().setValueAt(baoduongPanel.getDanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog().getModel().getValueAt(j, 5), i, 2);
+                }
+            }
+        }
     }
 }

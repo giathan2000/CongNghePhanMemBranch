@@ -5,6 +5,7 @@
  */
 package View;
 
+import org.apache.commons.lang.SerializationUtils;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
@@ -21,7 +22,9 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
      * Creates new form DonBaoDuong
      */
     public DonBaoDuongPanel() {
+        initCustom();
         initComponents();
+        
         setBackground(Color.pink);
         this.setLayout(new GridLayout(1, 2));
 
@@ -54,7 +57,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog = new javax.swing.JComboBox<>();
         jSeparator2 = new javax.swing.JSeparator();
         LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog = new javax.swing.JLabel();
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         soDienThoaiTF_ThemKhachHangMoiDialog = new javax.swing.JTextField();
         ThemDichVuBaoDuongDailog = new javax.swing.JDialog();
@@ -158,24 +160,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
             }
         });
 
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setBackground(new java.awt.Color(255, 153, 153));
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setText("Hủy");
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(102, 102, 102)));
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setOpaque(true);
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited(evt);
-            }
-        });
-
         jLabel10.setText("Số điện thoại *:");
 
         soDienThoaiTF_ThemKhachHangMoiDialog.addActionListener(new java.awt.event.ActionListener() {
@@ -209,17 +193,13 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
                                             .addComponent(jLabel10))
                                         .addGroup(ThemKhachHangMoiDailogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(ThemKhachHangMoiDailogLayout.createSequentialGroup()
-                                                .addGap(23, 23, 23)
-                                                .addComponent(HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(29, 29, 29)
-                                                .addComponent(LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(ThemKhachHangMoiDailogLayout.createSequentialGroup()
                                                 .addGap(27, 27, 27)
-                                                .addGroup(ThemKhachHangMoiDailogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(ChungMinhNhanDanTF_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(soDienThoaiTF_ThemKhachHangMoiDialog, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(NgaySinhKhachHangTF_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addGroup(ThemKhachHangMoiDailogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(ChungMinhNhanDanTF_ThemKhachHangMoiDailog, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                                    .addComponent(soDienThoaiTF_ThemKhachHangMoiDialog, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                                    .addComponent(NgaySinhKhachHangTF_ThemKhachHangMoiDailog, javax.swing.GroupLayout.DEFAULT_SIZE, 226, Short.MAX_VALUE)
+                                                    .addComponent(GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog, 0, 226, Short.MAX_VALUE)
+                                                    .addComponent(LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                             .addGroup(ThemKhachHangMoiDailogLayout.createSequentialGroup()
                                                 .addGap(31, 31, 31)
                                                 .addComponent(TenXeMayTF_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -272,9 +252,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
                     .addComponent(jLabel31)
                     .addComponent(GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(65, 65, 65)
-                .addGroup(ThemKhachHangMoiDailogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 53, Short.MAX_VALUE))
         );
 
@@ -295,7 +273,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, true
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -310,6 +288,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         if (DanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog.getColumnModel().getColumnCount() > 0) {
             DanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog.getColumnModel().getColumn(4).setMaxWidth(100);
         }
+        DanhSachDichVubaoDuongTB_ThemDichVuBaoDuongiDailog.setSelectionBackground(Color.LIGHT_GRAY);
 
         jLabel11.setText("Tìm kiếm:");
 
@@ -365,8 +344,8 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
         ThemLinhKienThayTheDialog.setTitle("Thêm linh kiện thay thế");
         ThemLinhKienThayTheDialog.setModal(true);
-        ThemLinhKienThayTheDialog.setMinimumSize(new java.awt.Dimension(600, 700));
-        ThemLinhKienThayTheDialog.setLocation(600, 100);
+        ThemLinhKienThayTheDialog.setMinimumSize(new java.awt.Dimension(1000, 700));
+        ThemLinhKienThayTheDialog.setLocation(400, 100);
 
         DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -397,8 +376,10 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         jScrollPane4.setViewportView(DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog);
         if (DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.getColumnModel().getColumnCount() > 0) {
             DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.getColumnModel().getColumn(0).setPreferredWidth(20);
+            DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.getColumnModel().getColumn(1).setMinWidth(250);
             DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.getColumnModel().getColumn(6).setPreferredWidth(10);
         }
+        DanhSachLinhKienThayTheTB_ThemLinhKienThayTheDailog.setSelectionBackground(Color.LIGHT_GRAY);
 
         jLabel23.setText("Tìm kiếm:");
 
@@ -490,6 +471,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         jLabel6.setText("Tổng thanh toán:");
 
         MaDonHangTF.setEditable(false);
+        MaDonHangTF.setForeground(new java.awt.Color(153, 153, 153));
         MaDonHangTF.setText("[Tự động tạo]");
 
         NgayThangNamTF.setEditable(false);
@@ -555,7 +537,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, true, false, false, true
@@ -661,15 +643,22 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã", "Tên linh kiện", "Số lượng", "Ghi chú"
+                "Mã", "Tên linh kiện", "Số lượng", "Giá", "Ghi chú"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         DanhSachLinhKienThayTheTB.setGridColor(new java.awt.Color(204, 204, 204));
@@ -774,7 +763,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
         jLabel18.setText("Trạng thái đơn bảo dưỡng:");
 
-        TrangThaiDonBaoDuongCheckBox.setText("Hoàn thành");
+        TrangThaiDonBaoDuongCheckBox.setText("Đã sửa xong");
         TrangThaiDonBaoDuongCheckBox.setOpaque(false);
         TrangThaiDonBaoDuongCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -852,6 +841,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         if (DanhSachtrangThaiPhuTungTiepNhan.getColumnModel().getColumnCount() > 0) {
             DanhSachtrangThaiPhuTungTiepNhan.getColumnModel().getColumn(0).setMinWidth(200);
         }
+        DanhSachtrangThaiPhuTungTiepNhan.setSelectionBackground(Color.LIGHT_GRAY);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -927,16 +917,11 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(XuatHoaDonBT, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel16))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(jLabel6)
-                                        .addGap(29, 29, 29)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel6))
+                                .addGap(45, 45, 45)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(TongThanhToanTF, javax.swing.GroupLayout.Alignment.LEADING)
@@ -1085,14 +1070,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_TrangThaiDonBaoDuongCheckBoxStateChanged
 
-    private void ThemKhachHangMoiBTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemKhachHangMoiBTMouseExited
-        ThemKhachHangMoiBT.setBackground(new Color(153, 153, 255));
-    }//GEN-LAST:event_ThemKhachHangMoiBTMouseExited
-
-    private void ThemKhachHangMoiBTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemKhachHangMoiBTMouseEntered
-        ThemKhachHangMoiBT.setBackground(new Color(10, 10, 255));
-    }//GEN-LAST:event_ThemKhachHangMoiBTMouseEntered
-
     public JTextField getSoDienThoaiTF_ThemKhachHangMoiDialog() {
         return soDienThoaiTF_ThemKhachHangMoiDialog;
     }
@@ -1169,18 +1146,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_XoaDichVuBaoDuongBTMouseClicked
 
-    private void HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setBackground(new Color(255, 153, 153));
-    }//GEN-LAST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited
-
-    private void HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseEntered
-        HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setBackground(new Color(255, 102, 102));
-    }//GEN-LAST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseEntered
-
-    private void HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseClicked
-        ThemKhachHangMoiDailog.setVisible(false);
-    }//GEN-LAST:event_HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseClicked
-
     private void LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited
         LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog.setBackground(new Color(204, 255, 153));
     }//GEN-LAST:event_LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailogMouseExited
@@ -1196,6 +1161,14 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private void ThemDichVuBaoDuongBT_ThemDichVuBaoDuongiDailogMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemDichVuBaoDuongBT_ThemDichVuBaoDuongiDailogMouseClicked
         //ThemDichVuBaoDuongDailog.setVisible(false);        // TODO add your handling code here:
     }//GEN-LAST:event_ThemDichVuBaoDuongBT_ThemDichVuBaoDuongiDailogMouseClicked
+
+    private void ThemKhachHangMoiBTMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemKhachHangMoiBTMouseExited
+        ThemKhachHangMoiBT.setBackground(new Color(153, 153, 255));
+    }//GEN-LAST:event_ThemKhachHangMoiBTMouseExited
+
+    private void ThemKhachHangMoiBTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemKhachHangMoiBTMouseEntered
+        ThemKhachHangMoiBT.setBackground(new Color(10, 10, 255));
+    }//GEN-LAST:event_ThemKhachHangMoiBTMouseEntered
 
     public JTable getDanhSachtrangThaiPhuTungTiepNhan() {
         return DanhSachtrangThaiPhuTungTiepNhan;
@@ -1277,13 +1250,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         this.jLabel1 = jLabel1;
     }
 
-    public JLabel getjLabel10() {
-        return ThemKhachHangMoiBT;
-    }
-
-    public void setjLabel10(JLabel jLabel10) {
-        this.ThemKhachHangMoiBT = jLabel10;
-    }
 
     public JLabel getjLabel11() {
         return jLabel11;
@@ -1461,13 +1427,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         this.LuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog = jLabel33;
     }
 
-    public JLabel getjLabel34() {
-        return HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog;
-    }
 
-    public void setjLabel34(JLabel jLabel34) {
-        this.HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog = jLabel34;
-    }
 
     public JLabel getjLabel35() {
         return XoaDichVuBaoDuongBT;
@@ -1822,13 +1782,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         this.HuyDonBaoDuongBT = HuyDonBaoDuongBT;
     }
 
-    public JLabel getHuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog() {
-        return HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog;
-    }
 
-    public void setHuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog(JLabel HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog) {
-        this.HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog = HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog;
-    }
 
     public JLabel getHuyThemLinhKienThayTheBT_ThemLinhKienThayTheDailog() {
         return HuyThemLinhKienThayTheBT_ThemLinhKienThayTheDailog;
@@ -1965,6 +1919,15 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     public void setThemKhachHangMoiBT(JLabel ThemKhachHangMoiBT) {
         this.ThemKhachHangMoiBT = ThemKhachHangMoiBT;
     }
+
+    public JLabel getjLabel10() {
+        return jLabel10;
+    }
+
+    public void setjLabel10(JLabel jLabel10) {
+        this.jLabel10 = jLabel10;
+    }
+
 
     public JDialog getThemKhachHangMoiDailog() {
         return ThemKhachHangMoiDailog;
@@ -2134,7 +2097,26 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         this.jToolBar1 = jToolBar1;
     }
 
+    public JComboBox<String> getDanhSachNhanVienComboBox() {
+        return DanhSachNhanVienComboBox;
+    }
 
+    public void setDanhSachNhanVienComboBox(JComboBox<String> DanhSachNhanVienComboBox) {
+        this.DanhSachNhanVienComboBox = DanhSachNhanVienComboBox;
+    }
+
+    public JComboBox<String> getSoLuongComboBox() {
+        return SoLuongComboBox;
+    }
+
+    public void setSoLuongComboBox(JComboBox<String> SoLuongComboBox) {
+        this.SoLuongComboBox = SoLuongComboBox;
+    }
+    
+    
+
+    private javax.swing.JComboBox<String> DanhSachNhanVienComboBox;
+    private javax.swing.JComboBox<String> SoLuongComboBox;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField BienSoXeMayTF_ThemKhachHangMoiDailog;
     private javax.swing.JTextField BienSoXeTF;
@@ -2146,7 +2128,6 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private javax.swing.JTable DanhSachtrangThaiPhuTungTiepNhan;
     private javax.swing.JComboBox<String> GioiTinhKhachHangComboBox_ThemKhachHangMoiDailog;
     private javax.swing.JLabel HuyDonBaoDuongBT;
-    private javax.swing.JLabel HuyNhapThongTinKhachHangMoiBT_ThemKhachHangMoiDailog;
     private javax.swing.JLabel HuyThemLinhKienThayTheBT_ThemLinhKienThayTheDailog;
     private javax.swing.JComboBox<String> LoaiXeComboBox_ThemKhachHangMoiDailog;
     private javax.swing.JLabel LuuDonBaoDuongBT;
@@ -2216,4 +2197,9 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> loaiXeComboBox;
     private javax.swing.JTextField soDienThoaiTF_ThemKhachHangMoiDialog;
     // End of variables declaration//GEN-END:variables
+
+    private void initCustom() {
+        SoLuongComboBox = new JComboBox<>();
+        DanhSachNhanVienComboBox = new JComboBox<>();
+    }
 }
