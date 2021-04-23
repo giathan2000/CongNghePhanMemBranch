@@ -72,6 +72,9 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         TimKiemLinhKienThayTheTF_ThemLinhKienThayTheDailog = new javax.swing.JTextField();
         HuyThemLinhKienThayTheBT_ThemLinhKienThayTheDailog = new javax.swing.JLabel();
         ThemLinhKienThayTheBT_ThemLinhKienThayTheDailog = new javax.swing.JLabel();
+        ThongBaoDialog = new javax.swing.JDialog();
+        jButton1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -425,7 +428,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
         ThemLinhKienThayTheDialog.getContentPane().setLayout(ThemLinhKienThayTheDialogLayout);
         ThemLinhKienThayTheDialogLayout.setHorizontalGroup(
             ThemLinhKienThayTheDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 521, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 847, Short.MAX_VALUE)
             .addGroup(ThemLinhKienThayTheDialogLayout.createSequentialGroup()
                 .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -450,6 +453,44 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
                     .addComponent(HuyThemLinhKienThayTheBT_ThemLinhKienThayTheDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ThemLinhKienThayTheBT_ThemLinhKienThayTheDailog, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
+        );
+
+        ThongBaoDialog.setLocation(new java.awt.Point(600, 200));
+        ThongBaoDialog.setMinimumSize(new java.awt.Dimension(450, 300));
+
+        jButton1.setText("Okay");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel13.setText("Thiếu thông tin, Không thể thêm!");
+
+        javax.swing.GroupLayout ThongBaoDialogLayout = new javax.swing.GroupLayout(ThongBaoDialog.getContentPane());
+        ThongBaoDialog.getContentPane().setLayout(ThongBaoDialogLayout);
+        ThongBaoDialogLayout.setHorizontalGroup(
+            ThongBaoDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ThongBaoDialogLayout.createSequentialGroup()
+                .addGroup(ThongBaoDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ThongBaoDialogLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(ThongBaoDialogLayout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        ThongBaoDialogLayout.setVerticalGroup(
+            ThongBaoDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ThongBaoDialogLayout.createSequentialGroup()
+                .addContainerGap(51, Short.MAX_VALUE)
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(116, 116, 116))
         );
 
         setPreferredSize(new java.awt.Dimension(1920, 1080));
@@ -643,14 +684,14 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã", "Tên linh kiện", "Số lượng", "Giá", "Ghi chú"
+                "Mã", "Tên linh kiện", "Số lượng", "Giá", "Ghi chú", "Ngày nhập"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, true
+                false, false, true, false, true, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -817,7 +858,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Tên phụ tùng", "Ổn", "Thay thế", "Vệ Sinh", "Điều chỉnh", "Bôi trơn"
+                "Tên phụ tùng", "Ổn", "Điều chỉnh", "Thay thế", "Vệ Sinh", "Bôi trơn"
             }
         ) {
             Class[] types = new Class [] {
@@ -1169,6 +1210,26 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private void ThemKhachHangMoiBTMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemKhachHangMoiBTMouseEntered
         ThemKhachHangMoiBT.setBackground(new Color(10, 10, 255));
     }//GEN-LAST:event_ThemKhachHangMoiBTMouseEntered
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        ThongBaoDialog.setVisible(false);
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    public JDialog getThongBaoDialog() {
+        return ThongBaoDialog;
+    }
+
+    public void setThongBaoDialog(JDialog ThongBaoDialog) {
+        this.ThongBaoDialog = ThongBaoDialog;
+    }
+
+    public JButton getjButton1() {
+        return jButton1;
+    }
+
+    public void setjButton1(JButton jButton1) {
+        this.jButton1 = jButton1;
+    }
 
     public JTable getDanhSachtrangThaiPhuTungTiepNhan() {
         return DanhSachtrangThaiPhuTungTiepNhan;
@@ -2149,6 +2210,7 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private javax.swing.JLabel ThemLinhKienThayTheBT;
     private javax.swing.JLabel ThemLinhKienThayTheBT_ThemLinhKienThayTheDailog;
     private javax.swing.JDialog ThemLinhKienThayTheDialog;
+    private javax.swing.JDialog ThongBaoDialog;
     private javax.swing.JTextField ThueVATTF;
     private javax.swing.JTextField TimKiemDichVuBaoDuongTF_ThemDichVuBaoDuongDailog;
     private javax.swing.JTextField TimKiemLinhKienThayTheTF_ThemLinhKienThayTheDailog;
@@ -2158,10 +2220,12 @@ public class DonBaoDuongPanel extends javax.swing.JPanel {
     private javax.swing.JLabel XoaDichVuBaoDuongBT;
     private javax.swing.JLabel XoaLinhKienThayTheBT;
     private javax.swing.JLabel XuatHoaDonBT;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;

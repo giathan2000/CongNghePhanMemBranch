@@ -27,6 +27,7 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JComboBox;
 import javax.swing.event.TableModelEvent;
+import java.time.LocalDate;
 import javax.swing.event.TableModelListener;
 import lib.Config;
 import lib.Stringlib;
@@ -262,13 +263,13 @@ public class DonBaoDuongController {
                             }
                         }
                         if (!doit) {
-                            dtm1.addRow(new Object[]{vt.elementAt(0), vt.elementAt(1), 1, vt.elementAt(2), null});
+                            dtm1.addRow(new Object[]{vt.elementAt(0), vt.elementAt(1), 1, vt.elementAt(2), null, vt.elementAt(4)});
                         }
                     }
                 }
                 suaNhapSoLuong();
                 baoduongPanel.getThemLinhKienThayTheDialog().setVisible(false);
-                
+
             }
         });
 
@@ -381,20 +382,58 @@ public class DonBaoDuongController {
                 suaNhapSoLuong();
             }
         });
-        
+
         baoduongPanel.getSoLuongComboBox().addPropertyChangeListener(new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
                 suaNhapSoLuong();
             }
         });
-        
+
         baoduongPanel.getLuuDonBaoDuongBT().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                
+
+                if (kiemTraThongTin()) {
+                    baoduongPanel.getThongBaoDialog().setVisible(true);
+
+                } else {
+                    String ngayHoanThanh = "";
+                    String trangThai = "chưa";
+                    if (baoduongPanel.getTrangThaiDonBaoDuongCheckBox().isSelected()) {
+                        ngayHoanThanh = LocalDate.now().toString();
+                        trangThai = "hoàn thành";
+                    }
+
+                    DonBaoDuong donBD = new DonBaoDuong(
+                            0,
+                            baoduongPanel.getBienSoXeTF().getText().trim(),
+                            baoduongPanel.getNgayThangNamTF().getText().trim(),
+                            ngayHoanThanh,
+                            trangThai,
+                            1,
+                            Long.parseLong(baoduongPanel.getTongThanhToanTF().getText()));
+                    try {
+                        donBD = baoDuongModel.themDonBaoDuong(donBD);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    if (donBD.getId() == 0) {
+                        System.err.println("Lỗi Nhap Don bao dưỡng");
+                    } else {
+                        try {
+                            luuThongTinDichVuBaoDuong(donBD.getId());
+                            luuThongTinThayTheLinhKien(donBD.getId());
+                            luuThongTinTrangThaiNhanXe(donBD.getId());
+                        } catch (SQLException ex) {
+                            Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
             }
-        });
+        }
+        );
+
     }
 
     private void capNhatNhatTinhTienTF() {
@@ -445,5 +484,45 @@ public class DonBaoDuongController {
                 }
             }
         }
+    }
+
+    private void luuThongTinDichVuBaoDuong(int idDonBaoDuong) throws SQLException {
+        DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
+        Vector<Vector> dataDichVuBaoDuong = dtm.getDataVector();
+        for (Vector data : dataDichVuBaoDuong) {
+            String idNV = "";
+            for (String str : data.get(5).toString().split("(")) {
+                idNV = str.substring(0, str.length() - 1);
+            }
+            baoDuongModel.themChiTieDonBaoDuong(Integer.parseInt(data.get(0).toString()), idDonBaoDuong, Integer.parseInt(data.get(2).toString()), Integer.parseInt(data.get(3).toString()), Integer.parseInt(idNV));
+        }
+    }
+
+    private void luuThongTinThayTheLinhKien(int idDonBaoDuong) throws SQLException {
+        DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel();
+        Vector<Vector> dataLinhKien = dtm.getDataVector();
+        for (Vector data : dataLinhKien) {
+            baoDuongModel.themChiTietThayTheLinhKien(idDonBaoDuong, Integer.parseInt(data.get(0).toString()), data.get(5).toString(), data.get(4).toString());
+        }
+    }
+
+    private void luuThongTinTrangThaiNhanXe(int idDonBaoDuong) throws SQLException {
+        DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachtrangThaiPhuTungTiepNhan().getModel();
+        Vector<Vector> dataLinhKien = dtm.getDataVector();
+        for (Vector data : dataLinhKien) {
+            for (int i = 1; i < data.size() + 1; i++) {
+                Object isCheck = data.get(i);
+                if (isCheck != null && (boolean) isCheck) {
+                    baoDuongModel.themChiTietTrangThaiKhiTiepNhanXe(idDonBaoDuong, i, baoDuongModel.timIDPhuTungKiemTra(data.get(0).toString()));
+                }
+            }
+        }
+    }
+
+    public boolean kiemTraThongTin() {
+        return baoduongPanel.getBienSoXeTF().getText().equalsIgnoreCase("")
+                || baoduongPanel.getTenKhachHangTF().getText().equalsIgnoreCase("")
+                || baoduongPanel.getSoDienThoaiTF().getText().equalsIgnoreCase("")
+                || baoduongPanel.getDanhSachDichVuBaoDuongTB().getRowCount() == 0;
     }
 }

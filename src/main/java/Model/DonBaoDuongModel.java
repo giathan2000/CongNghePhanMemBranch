@@ -221,4 +221,14 @@ public class DonBaoDuongModel {
         st.execute(q);
         con.close();
     }
+
+    public int timIDPhuTungKiemTra(String str) throws SQLException {
+        ArrayList<PhuTung> ar = layDanhSachPhuTungCanKiemTra();
+        for (PhuTung pt : ar) {
+            if (pt.getTenPhuTung().equalsIgnoreCase(str.trim())) {
+                return pt.getId();
+            }
+        }
+        return 0;
+    }
 }
