@@ -28,7 +28,6 @@ public class DonBaoDuongModel {
         }
 
         con.close();
-
         return arl;
     }
 
@@ -146,6 +145,14 @@ public class DonBaoDuongModel {
                 + "VALUES (N'" + xm.getBienSo() + "', '" + xm.getIdKhach() + "', '" + layIdLoaiXe(xm.getLoaiXe()) + "', '" + xm.getTenXe() + "'" + ")";
         st.execute(q);
     }
+    
+    public void themXeMayMoi(String bienSo, String loaiXe) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+        String q = "INSERT INTO XeMay (bienso,idLoaiXe) "
+                + "VALUES ('" + bienSo + "', " + layIdLoaiXe(loaiXe) + "" + ")";
+        st.execute(q);
+    }
 
     public void capNhatthongTinXeMay(XeMay xm) throws SQLException {
         Connection con = DatabaseConnection.getConnection();
@@ -203,12 +210,12 @@ public class DonBaoDuongModel {
 
     }
 
-    public void themChiTietThayTheLinhKien(int idDonBaoDuong, int idLinkKien, String ngaynhaplinhkien, String ghichu) throws SQLException {
+    public void themChiTietThayTheLinhKien(int idDonBaoDuong, int idLinkKien, String ngaynhaplinhkien, String ghichu, int soLuong) throws SQLException {
         Connection con = DatabaseConnection.getConnection();
         Statement st = con.createStatement();
-        String q = "INSERT INTO ChiTietThayTheLinhKien(idDonBaoDuong,idLinkKien,ngaynhaplinhkien,ghichu) "
-                + "VALUES (" + idDonBaoDuong + ", " + idLinkKien + ", '" + ngaynhaplinhkien
-                + "', N'" + ghichu + "');";
+        String q = "INSERT INTO ChiTietThayTheLinhKien(idDonBaoDuong,idLinkKien,ngaynhaplinhkien,ghichu,soLuong) "
+                + "VALUES (" + idDonBaoDuong + ", " + idLinkKien + ", '" + ngaynhaplinhkien + "', " + soLuong
+                + ", N'" + ghichu + "');";
         st.execute(q);
         con.close();
     }
@@ -219,6 +226,24 @@ public class DonBaoDuongModel {
         String q = "INSERT INTO ChiTietTrangThaiKhiTiepNhanXe(idDonBaoDuong,idPhuTungCanKiemTra,idTrangThaiPhuTung) "
                 + "VALUES (" + idDonBaoDuong + ", " + idPhuTungCanKiemTra + ", " + idTrangThaiPhuTung + ");";
         st.execute(q);
+        con.close();
+    }
+
+    public void capNhatSoLuongLinhKien(int idLinhKien, int soLuongBanDi) throws SQLException {
+        Connection con = DatabaseConnection.getConnection();
+        Statement st = con.createStatement();
+
+        ArrayList<LinhKien> ar = layDanhSachLinhKien();
+        for (LinhKien lk : ar) {
+            if (lk.getID() == idLinhKien) {
+                int soLuongMoi = lk.getSoLuong() >= soLuongBanDi ? lk.getSoLuong() - soLuongBanDi : 0;
+                String q = "UPDATE LinhKien"
+                        + " SET soluong = " + soLuongMoi
+                        + " WHERE id = " + idLinhKien;
+                st.execute(q);
+                break;
+            }
+        }
         con.close();
     }
 

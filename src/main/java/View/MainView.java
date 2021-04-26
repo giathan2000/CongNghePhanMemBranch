@@ -66,7 +66,7 @@ public class MainView extends javax.swing.JFrame {
         DonBaoDuongPanel.setLayout(DonBaoDuongPanelLayout);
         DonBaoDuongPanelLayout.setHorizontalGroup(
             DonBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1900, Short.MAX_VALUE)
+            .addGap(0, 1668, Short.MAX_VALUE)
         );
         DonBaoDuongPanelLayout.setVerticalGroup(
             DonBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -77,7 +77,9 @@ public class MainView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DonBaoDuongPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(DonBaoDuongPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,7 +102,6 @@ public class MainView extends javax.swing.JFrame {
     private void initView() {
         DonBaoDuongPanel.setLayout(new GridLayout(1, 4));
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel DonBaoDuongPanel;

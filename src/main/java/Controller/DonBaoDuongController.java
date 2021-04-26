@@ -38,6 +38,7 @@ import lib.Stringlib;
  */
 public class DonBaoDuongController {
 
+    DonBaoDuong donBaoDuongCurrent;
     DonBaoDuongPanel baoduongPanel;
     DonBaoDuongModel baoDuongModel;
     ArrayList<NhanVien> danhSachNhanVien;
@@ -105,6 +106,7 @@ public class DonBaoDuongController {
     }
 
     private void themSuKienChoCacItem() {
+        //Khi thay đổi loại xe thì sẽ load lại Danh sách dịch vụ bảo dưỡng cho phù hợp
         baoduongPanel.getLoaiXeComboBox().addItemListener((ItemEvent e) -> {
             try {
                 loadDanhSachDichVuBaoDuonginDialog();
@@ -114,6 +116,7 @@ public class DonBaoDuongController {
             }
         });
 
+        //Khi gõ phím sẽ tự động tìm thông tin khách hàng dựa trên xe máy và tự động điền thông tin
         baoduongPanel.getBienSoXeTF().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -165,7 +168,8 @@ public class DonBaoDuongController {
                 kh.setSDT(baoduongPanel.getSoDienThoaiTF_ThemKhachHangMoiDialog().getText().trim());
                 try {
                     baoDuongModel.themKhachHangMoi(kh);
-
+                    baoduongPanel.getTenKhachHangTF().setText(kh.getHoTen());
+                    baoduongPanel.getSoDienThoaiTF().setText(kh.getSDT());
                     kh = baoDuongModel.timKhachHangTheoTenVaSDT(kh.getHoTen(), kh.getSDT());
 
                 } catch (SQLException ex) {
@@ -185,6 +189,11 @@ public class DonBaoDuongController {
                     }
                 } catch (SQLException ex) {
                     Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    baoduongPanel.getChungMinhNhanDanTF_ThemKhachHangMoiDailog().setText("");
+                    baoduongPanel.getNgaySinhKhachHangTF_ThemKhachHangMoiDailog().setText("");
+                    baoduongPanel.getTenXeMayTF_ThemKhachHangMoiDailog().setText("");
+                    baoduongPanel.getThemKhachHangMoiDailog().setVisible(false);
                 }
             }
         });
@@ -365,17 +374,6 @@ public class DonBaoDuongController {
             }
         });
 
-        baoduongPanel.getLuuThongTinKhachHangMoiBT_ThemKhachHangMoiDailog().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                baoduongPanel.getChungMinhNhanDanTF_ThemKhachHangMoiDailog().setText("");
-                baoduongPanel.getNgaySinhKhachHangTF_ThemKhachHangMoiDailog().setText("");
-                baoduongPanel.getTenXeMayTF_ThemKhachHangMoiDailog().setText("");
-                baoduongPanel.getThemKhachHangMoiDailog().setVisible(false);
-            }
-
-        });
-
         baoduongPanel.getSoLuongComboBox().addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
@@ -393,47 +391,57 @@ public class DonBaoDuongController {
         baoduongPanel.getLuuDonBaoDuongBT().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
-                if (kiemTraThongTin()) {
-                    baoduongPanel.getThongBaoDialog().setVisible(true);
-
-                } else {
-                    String ngayHoanThanh = "";
-                    String trangThai = "chưa";
-                    if (baoduongPanel.getTrangThaiDonBaoDuongCheckBox().isSelected()) {
-                        ngayHoanThanh = LocalDate.now().toString();
-                        trangThai = "hoàn thành";
-                    }
-
-                    DonBaoDuong donBD = new DonBaoDuong(
-                            0,
-                            baoduongPanel.getBienSoXeTF().getText().trim(),
-                            baoduongPanel.getNgayThangNamTF().getText().trim(),
-                            ngayHoanThanh,
-                            trangThai,
-                            1,
-                            Long.parseLong(baoduongPanel.getTongThanhToanTF().getText()));
-                    try {
-                        donBD = baoDuongModel.themDonBaoDuong(donBD);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    if (donBD.getId() == 0) {
-                        System.err.println("Lỗi Nhap Don bao dưỡng");
+                if (donBaoDuongCurrent == null || donBaoDuongCurrent.getId() == 0) {
+                    if (kiemTraThongTinTruocKhiLuu()) {
+                        baoduongPanel.getThongBaoDialog().setVisible(true);
                     } else {
+                        String ngayHoanThanh = "";
+                        String trangThai = "0";
+                        if (baoduongPanel.getTrangThaiDonBaoDuongCheckBox().isSelected()) {
+                            ngayHoanThanh = LocalDate.now().toString();
+                            trangThai = "1";
+                        }
+
+                        int id = 0;
+                        int idNhanVienLapDon = layIDNhanVienLapDon();
+                        long tongTien = Long.parseLong(baoduongPanel.getTongThanhToanTF().getText().toString());
+
+                        donBaoDuongCurrent = new DonBaoDuong(
+                                0,
+                                baoduongPanel.getBienSoXeTF().getText().trim(),
+                                baoduongPanel.getNgayThangNamTF().getText().trim(),
+                                ngayHoanThanh,
+                                trangThai,
+                                idNhanVienLapDon,
+                                tongTien);
+
                         try {
-                            luuThongTinDichVuBaoDuong(donBD.getId());
-                            luuThongTinThayTheLinhKien(donBD.getId());
-                            luuThongTinTrangThaiNhanXe(donBD.getId());
+                            luuThongTinXe();
+                            donBaoDuongCurrent = baoDuongModel.themDonBaoDuong(donBaoDuongCurrent);
                         } catch (SQLException ex) {
                             Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
+                        if (donBaoDuongCurrent == null || donBaoDuongCurrent.getId() == 0) {
+                            System.err.println("Lỗi Nhap Don bao dưỡng");
+                        } else {
+                            try {
+                                luuThongTinXe();
+                                luuThongTinDichVuBaoDuong(donBaoDuongCurrent.getId());
+                                luuThongTinThayTheLinhKien(donBaoDuongCurrent.getId());
+                                luuThongTinTrangThaiNhanXe(donBaoDuongCurrent.getId());
+                                baoduongPanel.getTrangThaiXuatHoaDonLable().setVisible(true);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(DonBaoDuongController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
                     }
+                } else {
+                    baoduongPanel.getTrangThaiXuatHoaDonLable().setVisible(true);
                 }
             }
         }
         );
-
     }
 
     private void capNhatNhatTinhTienTF() {
@@ -486,15 +494,31 @@ public class DonBaoDuongController {
         }
     }
 
+    private void luuThongTinXe() throws SQLException {
+        String bienSo = baoduongPanel.getBienSoXeTF().getText();
+        String loaiXe = baoduongPanel.getLoaiXeComboBox().getSelectedItem().toString();
+        if (baoDuongModel.timXeMayTheoBienSo(bienSo) == null) {
+            baoDuongModel.themXeMayMoi(bienSo, loaiXe);
+        }
+    }
+
     private void luuThongTinDichVuBaoDuong(int idDonBaoDuong) throws SQLException {
         DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel();
         Vector<Vector> dataDichVuBaoDuong = dtm.getDataVector();
         for (Vector data : dataDichVuBaoDuong) {
-            String idNV = "";
-            for (String str : data.get(5).toString().split("(")) {
-                idNV = str.substring(0, str.length() - 1);
+            String idNV = "1";
+            if (data.get(5) != null) {
+                for (String str : data.get(5).toString().split("(")) {
+                    idNV = str.substring(0, str.length() - 2);
+                }
             }
-            baoDuongModel.themChiTieDonBaoDuong(Integer.parseInt(data.get(0).toString()), idDonBaoDuong, Integer.parseInt(data.get(2).toString()), Integer.parseInt(data.get(3).toString()), Integer.parseInt(idNV));
+
+            baoDuongModel.themChiTieDonBaoDuong(
+                    Integer.parseInt(data.get(0).toString()),
+                    idDonBaoDuong,
+                    Integer.parseInt(data.get(2).toString()),
+                    Long.parseLong(data.get(4).toString()),
+                    Integer.parseInt(idNV));
         }
     }
 
@@ -502,7 +526,13 @@ public class DonBaoDuongController {
         DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel();
         Vector<Vector> dataLinhKien = dtm.getDataVector();
         for (Vector data : dataLinhKien) {
-            baoDuongModel.themChiTietThayTheLinhKien(idDonBaoDuong, Integer.parseInt(data.get(0).toString()), data.get(5).toString(), data.get(4).toString());
+            int idLinhKien = Integer.parseInt(data.get(0).toString());
+            String ngayNhap = data.get(5).toString();
+            String ghiChu = data.get(4) == null ? "" : data.get(4).toString();
+            int soLuong = Integer.parseInt(data.get(2).toString());
+
+            baoDuongModel.themChiTietThayTheLinhKien(idDonBaoDuong, idLinhKien, ngayNhap, ghiChu, soLuong);
+            baoDuongModel.capNhatSoLuongLinhKien(idLinhKien, soLuong);
         }
     }
 
@@ -510,19 +540,23 @@ public class DonBaoDuongController {
         DefaultTableModel dtm = (DefaultTableModel) baoduongPanel.getDanhSachtrangThaiPhuTungTiepNhan().getModel();
         Vector<Vector> dataLinhKien = dtm.getDataVector();
         for (Vector data : dataLinhKien) {
-            for (int i = 1; i < data.size() + 1; i++) {
+            for (int i = 1; i < data.size(); i++) {
                 Object isCheck = data.get(i);
                 if (isCheck != null && (boolean) isCheck) {
-                    baoDuongModel.themChiTietTrangThaiKhiTiepNhanXe(idDonBaoDuong, i, baoDuongModel.timIDPhuTungKiemTra(data.get(0).toString()));
+                    baoDuongModel.themChiTietTrangThaiKhiTiepNhanXe(idDonBaoDuong, baoDuongModel.timIDPhuTungKiemTra(data.get(0).toString()), i);
                 }
             }
         }
     }
 
-    public boolean kiemTraThongTin() {
+    public boolean kiemTraThongTinTruocKhiLuu() {
         return baoduongPanel.getBienSoXeTF().getText().equalsIgnoreCase("")
-                || baoduongPanel.getTenKhachHangTF().getText().equalsIgnoreCase("")
-                || baoduongPanel.getSoDienThoaiTF().getText().equalsIgnoreCase("")
-                || baoduongPanel.getDanhSachDichVuBaoDuongTB().getRowCount() == 0;
+                || baoduongPanel.getDanhSachDichVuBaoDuongTB().getRowCount() == 0
+                || ((DefaultTableModel) baoduongPanel.getDanhSachDichVuBaoDuongTB().getModel()).getDataVector().isEmpty()
+                || ((DefaultTableModel) baoduongPanel.getDanhSachLinhKienThayTheTB().getModel()).getDataVector().isEmpty();
+    }
+
+    private int layIDNhanVienLapDon() {
+        return 1;
     }
 }
