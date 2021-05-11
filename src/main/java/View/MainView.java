@@ -7,6 +7,7 @@ package View;
 
 import java.awt.Color;
 import static java.awt.Component.CENTER_ALIGNMENT;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.GraphicsEnvironment;
@@ -31,13 +32,22 @@ public class MainView extends javax.swing.JFrame {
 
     }
 
-    public JPanel getDonBaoDuongPanel() {
-        return DonBaoDuongPanel;
+    public JPanel getdichVuBaoDuongPanel() {
+        return donBaoDuongPanel;
     }
 
-    public void setDonBaoDuongPanel(JPanel DonBaoDuongPanel) {
-        this.DonBaoDuongPanel = DonBaoDuongPanel;
+    public void setdichVuBaoDuongPanel(JPanel DonBaoDuongPanel) {
+        this.donBaoDuongPanel = DonBaoDuongPanel;
     }
+
+    public JPanel getDonBaoDuongPanel() {
+        return donBaoDuongPanel;
+    }
+
+    public void setDonBaoDuongPanel(JPanel donBaoDuongPanel) {
+        this.donBaoDuongPanel = donBaoDuongPanel;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,28 +58,29 @@ public class MainView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        DonBaoDuongPanel = new View.DonBaoDuongPanel();
+        donBaoDuongPanel = new View.DichVubaoDuongPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        DonBaoDuongPanel.setPreferredSize(new java.awt.Dimension(1900, 1000));
-        DonBaoDuongPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+        //View.DonBaoDuong.DonBaoDuongContainerPanel();
+        donBaoDuongPanel.setPreferredSize(new java.awt.Dimension(1900, 1000));
+        donBaoDuongPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                DonBaoDuongPanelMouseEntered(evt);
+                donBaoDuongPanelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                DonBaoDuongPanelMouseExited(evt);
+                donBaoDuongPanelMouseExited(evt);
             }
         });
 
-        javax.swing.GroupLayout DonBaoDuongPanelLayout = new javax.swing.GroupLayout(DonBaoDuongPanel);
-        DonBaoDuongPanel.setLayout(DonBaoDuongPanelLayout);
-        DonBaoDuongPanelLayout.setHorizontalGroup(
-            DonBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout donBaoDuongPanelLayout = new javax.swing.GroupLayout(donBaoDuongPanel);
+        donBaoDuongPanel.setLayout(donBaoDuongPanelLayout);
+        donBaoDuongPanelLayout.setHorizontalGroup(
+            donBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1668, Short.MAX_VALUE)
         );
-        DonBaoDuongPanelLayout.setVerticalGroup(
-            DonBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        donBaoDuongPanelLayout.setVerticalGroup(
+            donBaoDuongPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1000, Short.MAX_VALUE)
         );
 
@@ -77,33 +88,30 @@ public class MainView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(DonBaoDuongPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(donBaoDuongPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1668, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DonBaoDuongPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(donBaoDuongPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void DonBaoDuongPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DonBaoDuongPanelMouseEntered
-        DonBaoDuongPanel d = (DonBaoDuongPanel) DonBaoDuongPanel;
-        d.setBackground(Color.gray);
+    private void donBaoDuongPanelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_donBaoDuongPanelMouseEntered
 
-    }//GEN-LAST:event_DonBaoDuongPanelMouseEntered
 
-    private void DonBaoDuongPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DonBaoDuongPanelMouseExited
-        DonBaoDuongPanel.setBackground(Color.DARK_GRAY);
-    }//GEN-LAST:event_DonBaoDuongPanelMouseExited
+    }//GEN-LAST:event_donBaoDuongPanelMouseEntered
+
+    private void donBaoDuongPanelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_donBaoDuongPanelMouseExited
+
+    }//GEN-LAST:event_donBaoDuongPanelMouseExited
 
     private void initView() {
-        DonBaoDuongPanel.setLayout(new GridLayout(1, 4));
+        donBaoDuongPanel.setLayout(new GridLayout(1, 4));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel DonBaoDuongPanel;
+    private javax.swing.JPanel donBaoDuongPanel;
     // End of variables declaration//GEN-END:variables
 }

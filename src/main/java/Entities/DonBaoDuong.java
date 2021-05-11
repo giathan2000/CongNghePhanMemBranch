@@ -17,6 +17,8 @@ public class DonBaoDuong {
     private String trangThai;
     private int idNhanVienLapDon;
     private long tongTien;
+    private String tenKhachHang;
+    private String SDTKhachhang;
 
     public DonBaoDuong(int id, String bienSo, String ngayBatDau, String ngayHoanThanh, String trangThai, int idNhanVienLapDon, long tongTien) {
         this.id = id;
@@ -27,6 +29,36 @@ public class DonBaoDuong {
         this.idNhanVienLapDon = idNhanVienLapDon;
         this.tongTien = tongTien;
     }
+
+    public DonBaoDuong(int id, String bienSo, String ngayBatDau, String ngayHoanThanh, String trangThai, int idNhanVienLapDon, long tongTien, String tenKhachHang, String SDTKhachhang) {
+        this.id = id;
+        this.bienSo = bienSo;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayHoanThanh = ngayHoanThanh;
+        this.trangThai = trangThai;
+        this.idNhanVienLapDon = idNhanVienLapDon;
+        this.tongTien = tongTien;
+        this.tenKhachHang = tenKhachHang;
+        this.SDTKhachhang = SDTKhachhang;
+    }
+
+    public String getTenKhachHang() {
+        return tenKhachHang;
+    }
+
+    public void setTenKhachHang(String tenKhachHang) {
+        this.tenKhachHang = tenKhachHang;
+    }
+
+    public String getSDTKhachhang() {
+        return SDTKhachhang;
+    }
+
+    public void setSDTKhachhang(String SDTKhachhang) {
+        this.SDTKhachhang = SDTKhachhang;
+    }
+    
+    
     
     public int getId() {
         return id;

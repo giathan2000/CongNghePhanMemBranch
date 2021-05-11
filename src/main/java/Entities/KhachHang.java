@@ -21,7 +21,7 @@ public class KhachHang {
 
     }
 
-    public KhachHang(int ID, String hoTen, String CMND, String SDT, String gioiTinh) {
+    public KhachHang(int ID, String hoTen, String SDT, String gioiTinh) {
         this.ID = ID;
         this.hoTen = hoTen;
         this.CMND = CMND;
